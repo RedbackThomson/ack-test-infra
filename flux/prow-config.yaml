@@ -19,9 +19,9 @@ spec:
         alb.ingress.kubernetes.io/ssl-policy: "ELBSecurityPolicy-FS-1-2-Res-2020-10"
         kubernetes.io/ingress.class: "alb"
     prow:
-      domain: "prow.ack.aws.dev"
-      presubmitsBucketName: "ack-prow-logs"
-      tideStatusReconcilerBucketName: "ack-prow-logs"
+      domain: "nithomso.people.aws.dev"
+      presubmitsBucketName: "ack-prow-logs-394120634394"
+      tideStatusReconcilerBucketName: "ack-prow-logs-394120634394"
     crier:
       serviceAccount:
         name: "prow-deployment-service-account"
