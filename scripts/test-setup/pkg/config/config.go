@@ -9,13 +9,13 @@ type Config struct {
 }
 
 type ClusterConfig struct {
-	Create        *bool              `mapstructure:"create"`
-	Name          *string            `mapstructure:"name,omitempty"`
-	K8sVersion    *string            `mapstructure:"k8s_version,omitempty"`
-	Configuration *KINDConfiguration `mapstructure:"configuration"`
+	Create     *bool       `mapstructure:"create"`
+	Name       *string     `mapstructure:"name,omitempty"`
+	K8sVersion *string     `mapstructure:"k8s_version,omitempty"`
+	KINDConfig *KINDConfig `mapstructure:"configuration"`
 }
 
-type KINDConfiguration struct {
+type KINDConfig struct {
 	FileName              *string   `mapstructure:"file_name,omitempty"`
 	AdditionalControllers []*string `mapstructure:"additional_controllers,omitempty"`
 }

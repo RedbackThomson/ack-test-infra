@@ -19,7 +19,7 @@ build:
 	CGO_ENABLED=0 GOOS=$(shell go env GOOS) GOARCH=$(shell go env GOARCH) go build ${GO_CMD_FLAGS} ${GO_LDFLAGS} -o ./bin/test-setup ./main.go
 
 run: build
-	./bin/test-setup setup --config $(shell go env GOPATH)/src/github.com/aws-controllers-k8s/test-infra/test_config.yaml
+	./bin/test-setup setup --kubeconfig ${KUBECONFIG} --config $(shell go env GOPATH)/src/github.com/aws-controllers-k8s/test-infra/test_config.yaml
 
 test:
 	go test -tags $(shell go env GOOS) -v ./...

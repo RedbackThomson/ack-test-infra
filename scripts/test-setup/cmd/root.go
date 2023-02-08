@@ -2,15 +2,21 @@ package cmd
 
 import (
 	"fmt"
+	"go/build"
+	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"k8s.io/client-go/util/homedir"
 )
 
 var (
 	// Used for flags.
-	cfgFile string
+	cfgFile        string
+	kindCfgDir     string
+	kubeConfigPath string
 
 	rootCmd = &cobra.Command{
 		Use:   "test-setup",
@@ -29,7 +35,19 @@ func Execute() error {
 func init() {
 	cobra.OnInitialize(initConfig)
 
+	goPath := os.Getenv("GOPATH")
+	if goPath == "" {
+		goPath = build.Default.GOPATH
+	}
+
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $GOPATH/src/github.com/aws-controllers-k8s/test-infra/test_config.yaml)")
+	rootCmd.PersistentFlags().StringVar(&kindCfgDir, "kind-config-dir", fmt.Sprintf("%s/src/github.com/aws-controllers-k8s/test-infra/scripts/kind-configurations", goPath), "directory of the KIND configuration files (default is $GOPATH/src/github.com/aws-controllers-k8s/test-infra/scripts/kind-configurations)")
+
+	if home := homedir.HomeDir(); home != "" {
+		rootCmd.PersistentFlags().StringVar(&kubeConfigPath, "kubeconfig", filepath.Join(home, ".kube", "config"), "(optional) absolute path to the kubeconfig file")
+	} else {
+		rootCmd.PersistentFlags().StringVar(&kubeConfigPath, "kubeconfig", "", "absolute path to the kubeconfig file")
+	}
 }
 
 func initConfig() {
@@ -53,5 +71,5 @@ func initConfig() {
 		cobra.CheckErr(err)
 	}
 
-	fmt.Println("Using config file:", viper.ConfigFileUsed())
+	log.Println("Using config file: ", viper.ConfigFileUsed())
 }
